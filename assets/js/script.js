@@ -1,12 +1,12 @@
 $(function() {
-    // Displays the current day at the top of the calendar
+    // Function to display the current day at the top of the calendar
     function displayCurrentDay() {
         $('#currentDay').text(dayjs().format('dddd, MMMM D, YYYY'));
     }
 
-    // Updates the time block colors based on the current time
+    // Function to update the color of the time blocks based on the current time
     function updateTimeBlocks() {
-        var currentHour = dayjs().hour(); // Gets the current hour in 24-hour format
+        var currentHour = dayjs().hour();
         $('.time-block').each(function() {
             var blockHour = parseInt($(this).attr('id').split('-')[1], 10);
             if (blockHour < currentHour) {
@@ -19,7 +19,7 @@ $(function() {
         });
     }
 
-    // Loads saved events from local storage
+    // Function to load saved events from local storage
     function loadEvents() {
         $('.time-block').each(function() {
             var timeId = $(this).attr('id');
@@ -30,20 +30,22 @@ $(function() {
         });
     }
 
-    // Event handler to save events to local storage
+    // Event handler to save new events to local storage
     $('.saveBtn').click(function() {
         var timeId = $(this).closest('.time-block').attr('id');
         var eventText = $(this).siblings('.description').val();
         localStorage.setItem(timeId, eventText);
     });
 
-    // Call the functions to display the current day and load events
+    // Call the displayCurrentDay function to set the current day on the calendar
     displayCurrentDay();
-    loadEvents();
 
-    // Update the time block colors when the page loads
+    // Call the updateTimeBlocks function to set the initial color coding
     updateTimeBlocks();
 
-    // Refresh the time blocks' color every minute
+    // Call the loadEvents function to load any saved events from local storage
+    loadEvents();
+
+    // Set an interval to update the time block colors every minute
     setInterval(updateTimeBlocks, 60000);
 });
