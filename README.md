@@ -15,7 +15,8 @@ The Work Day Scheduler is a simple, elegant web application designed for employe
 To view the website locally, clone this repository and open index.html in your web browser.
 
 ## Screenshot
-![Work Day Scheduler Screenshot](screenshot.png)
+![Work Day Scheduler Screenshot](./assets/images/screenshot.png)
+
 
 ## Live Demo
 Experience the Work Day Scheduler [here](https://stgowf.github.io/WorkDayScheduler/).
