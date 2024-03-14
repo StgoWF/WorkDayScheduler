@@ -1,15 +1,14 @@
-
 $(function() {
-    // Display the current day at the top of the calendar
-    $('#currentDay').text(dayjs().format('dddd, MMMM D, YYYY'));
+    // Displays the current day at the top of the calendar
+    function displayCurrentDay() {
+        $('#currentDay').text(dayjs().format('dddd, MMMM D, YYYY'));
+    }
 
-    // Function to update time block colors based on the current time
+    // Updates the time block colors based on the current time
     function updateTimeBlocks() {
-        var currentHour = dayjs().hour();
-        console.log("Current Hour:", currentHour); 
+        var currentHour = dayjs().hour(); // Gets the current hour in 24-hour format
         $('.time-block').each(function() {
-            var blockHour = parseInt($(this).attr('id').split('-')[1], 10); // Ensure base 10
-            console.log("Block Hour:", blockHour); // Log each block's hour
+            var blockHour = parseInt($(this).attr('id').split('-')[1], 10);
             if (blockHour < currentHour) {
                 $(this).removeClass('present future').addClass('past');
             } else if (blockHour === currentHour) {
@@ -18,15 +17,33 @@ $(function() {
                 $(this).removeClass('past present').addClass('future');
             }
         });
-
-                        
     }
 
-    // Call updateTimeBlocks to set the initial colors
+    // Loads saved events from local storage
+    function loadEvents() {
+        $('.time-block').each(function() {
+            var timeId = $(this).attr('id');
+            var event = localStorage.getItem(timeId);
+            if (event) {
+                $(this).find('.description').val(event);
+            }
+        });
+    }
+
+    // Event handler to save events to local storage
+    $('.saveBtn').click(function() {
+        var timeId = $(this).closest('.time-block').attr('id');
+        var eventText = $(this).siblings('.description').val();
+        localStorage.setItem(timeId, eventText);
+    });
+
+    // Call the functions to display the current day and load events
+    displayCurrentDay();
+    loadEvents();
+
+    // Update the time block colors when the page loads
     updateTimeBlocks();
 
-    // Optionally, set an interval to update colors periodically, such as every minute
+    // Refresh the time blocks' color every minute
     setInterval(updateTimeBlocks, 60000);
-
-    // Add event listeners and other functions here
 });
